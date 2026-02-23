@@ -1,16 +1,17 @@
-# This is a sample Python script.
+import json
+from kafka import KafkaConsumer
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+topic_name = 'danny-topic'
+consumer = KafkaConsumer(
+    topic_name,
+    bootstrap_servers=['localhost:9092'],
+    auto_offset_reset='earliest',
+    value_deserializer=lambda m: json.loads(m.decode('utf-8')) if m else None,
+)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    print(f"Subscribed to topic {topic_name}")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    for message in consumer:
+        print(f"{message.value}")
