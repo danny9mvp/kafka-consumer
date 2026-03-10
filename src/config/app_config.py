@@ -11,7 +11,7 @@ class AppConfig:
 
     @staticmethod
     def load_config(self, env:str = 'prod'):
-        with open(f'config/config-{env}.yaml') as f:
+        with open(f'src/resources/config-{env}.yaml') as f:
             try:
                 config_data = yaml.safe_load(f)
                 consumer_config = ConsumerConfig(
